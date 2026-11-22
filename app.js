@@ -1,4 +1,4 @@
-const CLIENT_ID = "137e265a5d3d482ebb4be77b28439cfc";
+const CLIENT_ID = "ENTER_CLIENT_ID_HERE";
 const REDIRECT_URI = typeof chrome !== "undefined" && chrome.identity?.getRedirectURL
   ? chrome.identity.getRedirectURL()
   : "https://spotify-mini.chromiumapp.org/";
