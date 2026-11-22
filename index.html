@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Glass Widget</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="widget-frame">
+    <div class="widget-card" id="card">
+      <!-- Crossfading Album Art Background -->
+      <div class="bg-art-container">
+        <img class="bg-art active" id="bg-art-1" src="" alt="" />
+        <img class="bg-art" id="bg-art-2" src="" alt="" />
+      </div>
+      <div class="vignette"></div>
+
+      <!-- Action Feedback Toast -->
+      <div class="toast" id="toast">Link copied</div>
+
+      <!-- VIEW 1: Connect / Login -->
+      <div class="view-panel" id="login-view">
+        <div class="login-content">
+          <div class="spotify-logo-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.498 17.306c-.215.352-.676.463-1.028.247-2.822-1.724-6.374-2.114-10.558-1.157-.403.092-.806-.157-.899-.56-.092-.403.157-.806.56-.899 4.582-1.047 8.52-.602 11.677 1.341.352.216.463.677.248 1.028zm1.468-3.26c-.27.441-.853.582-1.294.312-3.23-1.986-8.155-2.56-11.977-1.4-1.282.389-1.396-.407-.905-1.002.39-.496.993-.309 1.488-.459 4.37-1.326 9.805-.683 13.504 1.587.441.27.582.853.312 1.294zm.126-3.41c-3.873-2.3-10.262-2.512-13.98-1.383-.594.18-1.223-.157-1.403-.75-.181-.594.156-1.223.75-1.403 4.275-1.298 11.332-1.05 15.803 1.604.535.318.71 1.011.393 1.545-.318.535-1.012.71-1.545.393z"/>
+            </svg>
+          </div>
+          <h2 class="view-heading">Spotify Glass</h2>
+          <p class="view-subtext">Connect your Spotify account to control playback.</p>
+          <button class="primary-btn" id="login-btn">Connect Spotify</button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: Standby / Idle -->
+      <div class="view-panel" id="standby-view">
+        <div class="standby-content">
+          <div class="idle-disc" id="idle-disc">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <h2 class="view-heading">No Active Playback</h2>
+          <p class="view-subtext">Start playing a song on Spotify to control it here.</p>
+          <div class="standby-actions">
+            <button class="secondary-btn" id="standby-refresh-btn" title="Check for active player">Refresh</button>
+            <button class="primary-btn-sm" id="standby-open-btn" title="Open Spotify Web Player">Open Spotify</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: Active Player -->
+      <div class="view-panel" id="player-view">
+        <!-- Top Bar -->
+        <div class="top-bar">
+          <div class="info-pill" id="info-pill" title="Current Track">
+            <img class="avatar" id="avatar-img" src="" alt="Album Cover" />
+            <div class="meta">
+              <div class="track-title" id="track-title">—</div>
+              <div class="artist-handle" id="artist-handle">—</div>
+            </div>
+          </div>
+
+          <div class="top-actions">
+            <button class="glass-circle" id="share-btn" title="Copy Spotify Link" aria-label="Copy Spotify Link">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+            </button>
+
+            <button class="glass-circle" id="like-btn" title="Save to Liked Songs" aria-label="Save to Liked Songs">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+          <!-- Timestamps & Progress Track -->
+          <div class="progress-wrap">
+            <div class="timestamps">
+              <span id="time-elapsed">0:00</span>
+              <span id="time-remaining">-0:00</span>
+            </div>
+            <div class="progress-track" id="progress-track" role="progressbar" aria-label="Track progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" title="Click to seek">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+          </div>
+
+          <!-- Controls Row with Sideways Peek Drawer -->
+          <div class="controls-row" id="controls-row">
+            <!-- PREVIOUS BUTTON & PEEK PILL -->
+            <div class="ctrl-wrap ctrl-prev" id="ctrl-prev-wrap">
+              <div class="peek-prev-pill" id="peek-prev-pill">
+                <img class="prev-thumb" id="prev-thumb" src="" alt="Prev Cover" />
+                <div class="peek-text">
+                  <span class="peek-label">Previous</span>
+                  <span class="peek-song" id="prev-song">—</span>
+                </div>
+              </div>
+              <button class="ctrl-circle" id="prev-btn" title="Previous (Left Arrow)" aria-label="Previous">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- PLAY / PAUSE BUTTON -->
+            <div class="ctrl-wrap ctrl-play">
+              <button class="ctrl-circle play-circle" id="play-btn" title="Play/Pause (Space)" aria-label="Play or Pause">
+                <svg id="play-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- NEXT BUTTON & SIDEWAYS EXPANDING DRAWER -->
+            <div class="next-drawer-group" id="next-drawer-group">
+              <div class="sideways-queue" id="sideways-queue">
+                <div class="queue-stack" id="queue-stack">
+                  <img class="peek-art-primary" id="peek-art-1" src="" alt="Next Cover 1" />
+                  <img class="peek-art-secondary" id="peek-art-2" src="" alt="Next Cover 2" />
+                </div>
+                <div class="peek-text">
+                  <span class="peek-label">Up Next</span>
+                  <span class="peek-song" id="peek-song">Queue empty</span>
+                </div>
+              </div>
+              <button class="ctrl-circle" id="next-btn" title="Next (Right Arrow)" aria-label="Next">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
