@@ -2,14 +2,16 @@
   "manifest_version": 3,
   "name": "Spotify Glass Widget",
   "version": "1.0.0",
-  "description": "Minimal glassmorphic Spotify mini-player with sideways queue peek.",
+  "description": "Minimal glassmorphic Spotify mini-player with sideways queue peek and synced lyrics.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm/FfAhNo1Su0+6bbXRqb24gere6j9+RgHRnvCb7eHqcRmBOwjQwdiGyqJJl1nADz2vd5opVzjC3bem2ze/rv4e8YBLu+UNkSAl9YcIolcYRomR1PmvWdrwmK3EOIGYlzV2cw2pfAm+0/sIf6hkrMrOwIKjobYgQmdnUFbw7mMqmCajCxDvVVpPVFKVna5KA0vtP6sIHtz08TGzYeAh7bTxeKRNK8vMRPHLJoSO9GP+CsWT0SNAB8sL55hJGF2ulD6V691r6ObpH8ywczeosg2JCyKKD9MTUEu/39i9MA4daPsWXqIcMYp4Gt8gZ/YcZAiZAv4bRiAt5i2vVURM0tKQIDAQAB",
   "permissions": [
     "identity",
     "storage"
   ],
   "host_permissions": [
     "https://api.spotify.com/*",
-    "https://accounts.spotify.com/*"
+    "https://accounts.spotify.com/*",
+    "https://lrclib.net/*"
   ],
   "action": {
     "default_popup": "index.html",

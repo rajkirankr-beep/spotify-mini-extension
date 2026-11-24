@@ -75,6 +75,15 @@ html, body {
   transform: scale(1);
 }
 
+/* Hide empty images cleanly to prevent broken image icons on login/idle */
+.bg-art:not([src]),
+.bg-art[src=""],
+.avatar:not([src]),
+.avatar[src=""] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 .vignette {
   position: absolute;
   inset: 0;
@@ -225,17 +234,17 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 
 .info-pill {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   background: rgba(38, 38, 38, 0.52);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  padding: 6px 14px 6px 6px;
+  padding: 5px 12px 5px 5px;
   border-radius: 999px;
   min-width: 0;
   flex: 1;
@@ -244,8 +253,8 @@ html, body {
 }
 
 .avatar {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -261,7 +270,7 @@ html, body {
 }
 
 .track-title {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.25;
   white-space: nowrap;
@@ -271,7 +280,7 @@ html, body {
 }
 
 .artist-handle {
-  font-size: 12px;
+  font-size: 11.5px;
   color: rgba(255, 255, 255, 0.72);
   white-space: nowrap;
   overflow: hidden;
@@ -281,13 +290,13 @@ html, body {
 .top-actions {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .glass-circle {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(38, 38, 38, 0.52);
@@ -298,7 +307,7 @@ html, body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.2s ease;
+  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -311,6 +320,12 @@ html, body {
   transform: scale(0.94);
 }
 
+.glass-circle.active-toggle {
+  background: rgba(29, 185, 84, 0.28);
+  border-color: rgba(29, 185, 84, 0.65);
+  color: #1ed760;
+}
+
 @keyframes heartPop {
   0% { transform: scale(1); }
   50% { transform: scale(1.3); }
@@ -321,6 +336,80 @@ html, body {
   fill: #1DB954;
   color: #1DB954;
   animation: heartPop 0.3s ease;
+}
+
+/* --- SYNCED LYRICS OVERLAY --- */
+.lyrics-overlay {
+  position: relative;
+  flex: 1;
+  margin: 10px 0;
+  border-radius: 24px;
+  background: rgba(18, 18, 18, 0.56);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px) scale(0.98);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+.lyrics-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.lyrics-scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: none;
+}
+
+.lyrics-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.lyric-line {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.38);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  transform-origin: left center;
+}
+
+.lyric-line:hover {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.lyric-line.plain {
+  cursor: default;
+}
+
+.lyric-line.plain:hover {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.lyric-line.active {
+  color: #ffffff;
+  transform: scale(1.03);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.25);
+}
+
+.lyric-status {
+  margin: auto;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
 }
 
 /* --- BOTTOM SECTION --- */
@@ -438,7 +527,7 @@ html, body {
 
 .sideways-queue {
   position: absolute;
-  right: 26px; /* Smooth anchor behind the Next button */
+  right: 26px;
   height: 52px;
   max-width: 0;
   opacity: 0;
@@ -572,7 +661,7 @@ html, body {
 /* --- TOAST NOTIFICATION --- */
 .toast {
   position: absolute;
-  top: 76px;
+  top: 72px;
   right: 18px;
   z-index: 20;
   background: rgba(20, 20, 20, 0.88);
